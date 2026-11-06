@@ -10,7 +10,6 @@ import {
 import { TopBar } from './components/TopBar';
 import { Sidebar } from './components/Sidebar';
 import { AvatarModal } from './components/AvatarModal';
-import { DemoBanner } from './components/DemoBanner';
 import { LandingView } from './views/LandingView';
 import { PublicCafeMenu } from './views/PublicCafeMenu';
 import { ClientPortalView } from './views/ClientPortalView';
@@ -291,13 +290,6 @@ export default function App() {
           isSidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
         }`}
       >
-        {/* Barra superior de demostración y cambio rápido de rol */}
-        <DemoBanner
-          currentUser={currentUser}
-          onUserChanged={handleUserChanged}
-          onNavigate={navigateTo}
-        />
-
         {/* Cabecera / TopBar integrado */}
         <TopBar
           currentUser={currentUser}
@@ -328,14 +320,21 @@ export default function App() {
         </footer>
       </div>
 
-      {/* Modal global de edición de foto de perfil */}
+      {/* Modal global de edición de perfil y foto */}
       {currentUser && (
         <AvatarModal
           user={currentUser}
           isOpen={showGlobalAvatarModal}
           onClose={() => setShowGlobalAvatarModal(false)}
-          onAvatarUpdated={(newAvatarUrl) => {
-            handleUserChanged({ ...currentUser, avatarUrl: newAvatarUrl });
+          onAvatarUpdated={(newAvatarUrl, newName) => {
+            handleUserChanged({
+              ...currentUser,
+              avatarUrl: newAvatarUrl,
+              nombre: newName || currentUser.nombre,
+            });
+          }}
+          onUserUpdated={(updatedUser) => {
+            handleUserChanged(updatedUser);
           }}
         />
       )}

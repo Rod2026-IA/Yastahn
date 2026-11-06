@@ -1943,13 +1943,20 @@ export const OwnerPortalView: React.FC<OwnerPortalViewProps> = ({
         </div>
       )}
 
-      {/* Modal Foto de Perfil */}
+      {/* Modal de Perfil y Foto */}
       <AvatarModal
         user={currentUser}
         isOpen={showAvatarModal}
         onClose={() => setShowAvatarModal(false)}
-        onAvatarUpdated={(newAvatar) => {
-          onUserUpdated({ ...currentUser, avatarUrl: newAvatar });
+        onAvatarUpdated={(newAvatar, newName) => {
+          onUserUpdated({
+            ...currentUser,
+            avatarUrl: newAvatar,
+            nombre: newName || currentUser.nombre,
+          });
+        }}
+        onUserUpdated={(updatedUser) => {
+          onUserUpdated(updatedUser);
         }}
       />
     </div>
